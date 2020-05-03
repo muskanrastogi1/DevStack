@@ -3,15 +3,15 @@ import requests
 import json
 
 
-def main(token):
+def main(access_token):
     payload = {}
     headers = {
-        'Authorization' : 'Token' + token
+        'Authorization' : 'access_token' + access_token
     }
     url = "https://api.github.com/users/"
     response = requests.request("GET", url, headers=headers, data = payload)
     data = json.loads(response.text)
-    repos = get_repos(data['repos_url'], token)
+    repos = get_repos(data['repos_url'], access_token)
     dicti = {
         'username': data['login'],
         'profile_photo': data['avatar_url'],
@@ -29,15 +29,15 @@ def main(token):
     print(dicti)
 
 
-def get_repos(url,token):
+def get_repos(url,access_token):
     payload = {}
     headers = {
-        'Authorization' : 'Token' + token
+        'Authorization' : 'access_token' + access_token
     }
     url = "https://api.github.com/users/"
     response = requests.request("GET", url, headers=headers, data = payload)
     data = json.loads(response.text)
-    contrib = get_contrib(data['contributors_url'], token)
+    contrib = get_contrib(data['contributors_url'], access_token)
     mydicti = []
     for i in data:
         dicti = {
@@ -56,10 +56,10 @@ def get_repos(url,token):
     return mydicti
 
 
-def get_contrib(url,token):
+def get_contrib(url,access_token):
     payload = {}
     headers = {
-        'Authorization' : 'Token' + token
+        'Authorization' : 'access_token' + access_token
     }
     url = "https://api.github.com/users/"
     response = requests.request("GET", url, headers=headers, data = payload)
@@ -76,4 +76,4 @@ def get_contrib(url,token):
 
 
 
-main("<TOKEN>")
+main("<ACCESS_TOKEN>")
